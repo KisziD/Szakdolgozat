@@ -7,7 +7,7 @@ RUN dotnet restore
 COPY . .
 RUN dotnet publish -c Release -o out
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0.2-bullseye-slim-arm32v7
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.2-bullseye-slim-arm64v8
 WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "Server.dll"]

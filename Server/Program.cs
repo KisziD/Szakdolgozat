@@ -1,8 +1,11 @@
+using Server.Model;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddSingleton<Client>();
 
 var app = builder.Build();
 

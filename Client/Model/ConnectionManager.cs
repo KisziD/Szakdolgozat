@@ -2,23 +2,17 @@
 
 namespace Client.Model
 {
-    public class ConnectionManager
+    public static class ConnectionManager
     {
-        public int port = 5082;
-        readonly RestClient _client;
 
-        public ConnectionManager()
+        public static void Login()
         {
-            _client = new RestClient("http://127.0.0.1:5147");
-        }
-
-        public int Login()
-        {
-            _client.PostAsync(new RestRequest("api/client/" + port));
-            Console.WriteLine("Login");
-            return 0;
+             string? port = Environment.GetEnvironmentVariable("PORT");
+             string? address = Environment.GetEnvironmentVariable("ADDRESS");
+             string? server_address = Environment.GetEnvironmentVariable("SERVER_ADDRESS");
+             RestClient _client = new RestClient("http://"+server_address);
+            //_client.PostAsync(new RestRequest("api/client/" + port));
+            Console.WriteLine("Login to "+server_address +" using " + address +":"+port);
         }
     }
-
-
 }

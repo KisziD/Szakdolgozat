@@ -5,22 +5,23 @@ using Server.Model;
 
 namespace Server.Controllers
 {
+ 
+
     [Route("api/[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
     {
         private Client client;
-        public ClientController(Client c)
+        public ClientController()
         {
-            client = c;
         } 
 
         // GET: api/<ClientController>
-        [HttpGet]
+       /* [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
-        }
+        }*/
 
         // GET api/<ClientController>/5
         [HttpGet("{id}")]
@@ -29,14 +30,16 @@ namespace Server.Controllers
             return "value";
         }
 
-        // POST api/<ClientController>
-        [HttpPost("{port}")]
-        public void Post(int port)
+        // POST api/<ClientController>/login
+        
+        [HttpPost("login")]
+        public Client Post([FromBody]Client address)
         {
             //check database
             //add client
-            Console.WriteLine(port);
-            client.port = port;
+            Console.WriteLine(address.port);
+            return address;
+            //client.port = port;
         }
 
         // PUT api/<ClientController>/5

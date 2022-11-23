@@ -1,4 +1,4 @@
-namespace Server_ang
+namespace Server
 {
     public class WeatherForecast
     {

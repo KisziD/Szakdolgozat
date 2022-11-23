@@ -15,6 +15,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "SERVER_ADDRESS": "localhost:5147",
+        "CLIENT_ID": "5",
         "PORT": "5082"
       },
       "applicationUrl": "https://localhost:7082;http://localhost:5082",

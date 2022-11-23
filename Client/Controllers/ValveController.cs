@@ -4,8 +4,8 @@ using Client.Services;
 
 namespace Client.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class ValveController : ControllerBase
     {
         ValveService valveService;
@@ -15,19 +15,16 @@ namespace Client.Controllers
         }
 
         // GET: api/<ValuesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        [HttpGet("open")]
+        public void open()
         {
-            //return valveState;
-            return new string[] { "value1", "value2" };
+            Console.WriteLine("open");
         }
 
-        // POST api/<ValuesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpGet("close")]
+        public void close()
         {
-            //set valveState
-            valveService.setValveState(value == "true");
+          Console.WriteLine("close");
         }
     }
 }

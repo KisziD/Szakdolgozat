@@ -8,11 +8,10 @@ namespace Server.Controllers
 {
  
 
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
     {
-        private Client? client;
         private DatabaseContext databaseContext;
         public ClientController(DatabaseContext _context)
         {
@@ -27,10 +26,10 @@ namespace Server.Controllers
         }*/
 
         // GET api/<ClientController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet]
+        public IEnumerable<Client> Get()
         {
-            return "value";
+            return databaseContext.Clients.ToArray();
         }
 
         // POST api/<ClientController>/login
@@ -48,16 +47,73 @@ namespace Server.Controllers
            
         }
 
-        // PUT api/<ClientController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpGet("setaddr/{newaddress}")]
+        public int SetAddress(string newaddress)
         {
+            string id = newaddress.Split("_")[0];
+            string address = newaddress.Split("_")[1];
+            Console.WriteLine(address);
+            Client c = databaseContext.Clients.Where(c => c.ClientID == Int32.Parse(id)).FirstOrDefault();
+            if (c != null) //check database
+            {   //add client
+                databaseContext.Clients.Where(c => c.ClientID == Int32.Parse(id)).FirstOrDefault().ClientAddress = address;
+                databaseContext.SaveChanges();
+            }
+            return 0;
+
+        }
+        [HttpGet("id/{id}")]
+        public string getAddress(int id)
+        {
+            Client c = databaseContext.Clients.Where(c => c.ClientID == id).FirstOrDefault();
+            if (c == null)
+            {
+                return "id_err";
+            }else
+            {
+                Console.WriteLine(c.ClientID + ":  " + c.ClientAddress);
+                return c.ClientAddress;
+            }
+        }
+
+        [HttpGet("edit/{stru}")]
+        public void edit(string stru)
+        {
+            int id = Int32.Parse(stru.Split("_")[0]);
+            string newName = stru.Split("_")[1];
+            string newAddress = stru.Split("_")[2];
+            Client c = databaseContext.Clients.Where(c => c.ClientID == id).FirstOrDefault();
+            if (c != null) //check database
+            {   //add client
+                c.ClientName = newName;
+                c.ClientAddress = newAddress;
+                databaseContext.SaveChanges();
+            }
+        }
+
+        // PUT api/<ClientController>/5
+        [HttpGet("settemp/{tempstr}")]
+        public void Put(string tempstr)
+        {
+            string id = tempstr.Split("_")[0];
+            int temp = Int32.Parse(tempstr.Split("_")[1]);
+            Client c = databaseContext.Clients.Where(c => c.ClientID == Int32.Parse(id)).FirstOrDefault();
+            Console.WriteLine(tempstr);
+            if (c != null) //check database
+            {   //add client
+                databaseContext.Clients.Where(c => c.ClientID == Int32.Parse(id)).FirstOrDefault().TargetTemp = temp;
+                databaseContext.SaveChanges();
+            }
         }
 
         // DELETE api/<ClientController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            databaseContext.Remove(id);
+            databaseContext.SaveChanges();
         }
+
+        
     }
 }

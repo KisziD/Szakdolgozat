@@ -1,24 +1,29 @@
-<h1 id="tableLabel">Weather forecast</h1>
+<p *ngIf="!clients"><em>Loading...</em></p>
 
-<p>This component demonstrates fetching data from the server.</p>
+<p class="unselectable" style="text-align: center; font-size: 32px; margin-top: 8vh; margin-bottom: 5vh;" *ngIf="!syncState"><i class="fa-solid fa-power-off" style="padding-right:10px; color:red;" (click)="toggleSync()"></i>Sync: OFF </p>
+<p class="unselectable" style="text-align: center; font-size: 32px; margin-top: 8vh; margin-bottom: 5vh;" *ngIf="syncState"><i class="fa-solid fa-power-off" style="padding-right:10px; color:green;" (click)="toggleSync()"></i>Sync: {{syncTemp}}   <i class="fa-solid fa-minus clickable" style="color:blue; float:none;" (click)="coldSync()"></i><i class="fa-solid fa-plus clickable" style="color: red; float:none;" (click)="warmSync()"></i></p>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="forecasts">
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="clients">
   <thead>
     <tr>
-      <th>Date</th>
-      <th>Temp. (C)</th>
-      <th>Temp. (F)</th>
-      <th>Summary</th>
+      <th>Client</th>
+      <th>Address </th>
+      <th style="width:145px">Current temp (C)</th>
+      <th style="width:230px">Target temp (C)</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let forecast of forecasts">
-      <td>{{ forecast.date }}</td>
-      <td>{{ forecast.temperatureC }}</td>
-      <td>{{ forecast.temperatureF }}</td>
-      <td>{{ forecast.summary }}</td>
+    <tr *ngFor="let client of clients">
+      <td *ngIf="client.clientID!=selectedId">{{ client.clientID}}, {{client.clientName}}</td>
+      <td *ngIf="client.clientID==selectedId"><input (keyup.enter)="save(client)" (keyup.escape)="cancel()" type="text" name="cName" [(ngModel)]="clientNewName" /></td>
+      <td *ngIf="client.clientID!=selectedId">{{ client.clientAddress}}</td>
+      <td *ngIf="client.clientID==selectedId"><input (keyup.enter)="save(client)" (keyup.escape)="cancel()" type="text" name="cName" [(ngModel)]="clientNewAddress" /></td>
+      <td>{{ client.currentTemp}}</td>
+      <td *ngIf="client.clientID!=selectedId">{{ client.targetTemp }}  <i class="fa-solid fa-pen-to-square clickable" (click)="edit(client)"></i><i class="fa-regular fa-trash-can clickable" style="color: darkred;" (click)="delete(client.clientID)"></i><i class="fa-solid fa-plus clickable" style="color: red;" (click)="warm(client)"></i> <i class="fa-solid fa-minus clickable" style="color:blue;" (click)="cold(client)"></i></td>
+      <td *ngIf="client.clientID==selectedId">{{ client.targetTemp }}  <i class="fa-solid fa-check clickable" (click)="save(client)"></i><i class="fa-solid fa-xmark clickable" style="color: darkred;" (click)="cancel()"></i></td>
+
+
     </tr>
   </tbody>
 </table>

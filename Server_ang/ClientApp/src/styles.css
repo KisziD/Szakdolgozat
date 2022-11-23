@@ -14,3 +14,30 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+.clickable:hover{
+    font-size: 110%;
+    padding-left: 3px;
+    cursor: pointer;
+}
+
+.clickable{
+    padding-left: 5px;
+    float:right;
+}
+
+html, body{
+    background-color:rgb(200, 200, 200);
+}
+
+.unselectable {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  /*
+     Introduced in Internet Explorer 10.
+     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+   */
+  -ms-user-select: none;
+  user-select: none;
+}
